@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Furibons — Spécialiste Animation Culinaire & Show Cooking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Nunito:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rouge:#E8432D; --orange:#F07D2A; --jaune:#F5C842;
+  --vert:#3DAA6E; --blanc:#FFFDF8; --fond:#FFF8EF;
+  --texte:#1A1208; --gris:#7A6F65; --border:#EDE3D6;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--blanc);color:var(--texte);font-family:'Nunito',sans-serif;font-weight:400;overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--blanc);border-bottom:2px solid var(--border);padding:0 56px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:box-shadow .3s;}
+nav.scrolled{box-shadow:0 4px 32px rgba(0,0,0,.08);}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.45rem;color:var(--texte);text-decoration:none;display:flex;align-items:center;gap:10px;}
+.logo-dot{width:10px;height:10px;border-radius:50%;background:var(--rouge);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.35);background:var(--orange);}}
+.nav-links{display:flex;align-items:center;list-style:none;gap:36px;}
+.nav-links a{font-family:'Syne',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gris);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--rouge);}
+.nav-devis{background:var(--rouge);color:#fff!important;padding:11px 26px;border-radius:100px;transition:background .2s,transform .15s!important;}
+.nav-devis:hover{background:var(--orange)!important;transform:scale(1.04);}
+
+/* ── HERO ── */
+.hero{min-height:100vh;padding-top:72px;display:grid;grid-template-columns:1fr 1fr;background:var(--fond);overflow:hidden;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px 56px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--border);border-radius:100px;padding:8px 18px;font-size:.75rem;font-family:'Syne',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);width:fit-content;margin-bottom:32px;animation:fadeUp .7s .1s both;}
+.hero-badge-dot{width:8px;height:8px;border-radius:50%;background:var(--vert);}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,5vw,5.5rem);font-weight:800;line-height:1.0;letter-spacing:-.03em;margin-bottom:28px;animation:fadeUp .8s .25s both;}
+.hero-title .line-accent{color:var(--rouge);}
+.hero-title .line-italic{font-style:italic;font-family:'Nunito',sans-serif;font-weight:400;color:var(--orange);font-size:.85em;}
+.hero-sub{font-size:1.05rem;line-height:1.75;color:var(--gris);max-width:440px;margin-bottom:44px;animation:fadeUp .8s .4s both;}
+.hero-ctas{display:flex;align-items:center;gap:20px;flex-wrap:wrap;animation:fadeUp .8s .55s both;}
+.btn-main{background:var(--rouge);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:.04em;padding:16px 36px;border-radius:100px;text-decoration:none;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 8px 24px rgba(232,67,45,.25);}
+.btn-main:hover{background:var(--orange);transform:translateY(-3px);box-shadow:0 12px 32px rgba(232,67,45,.3);}
+.btn-secondary{font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;color:var(--texte);text-decoration:none;display:flex;align-items:center;gap:8px;transition:gap .2s;}
+.btn-secondary:hover{gap:14px;}
+.btn-secondary::after{content:'→';color:var(--rouge);}
+.hero-stats{display:flex;gap:40px;margin-top:56px;padding-top:40px;border-top:2px solid var(--border);animation:fadeUp .8s .7s both;}
+.hero-stat-num{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--texte);line-height:1;}
+.hero-stat-num span{color:var(--rouge);}
+.hero-stat-label{font-size:.78rem;color:var(--gris);margin-top:4px;line-height:1.4;}
+.hero-right{position:relative;overflow:hidden;}
+.hero-mosaic{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:4px;}
+.mosaic-img{overflow:hidden;position:relative;}
+.mosaic-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+.mosaic-img:hover img{transform:scale(1.06);}
+.mosaic-img.big{grid-row:1/3;}
+.photo-tag{position:absolute;bottom:16px;left:16px;background:rgba(255,255,255,.92);border-radius:100px;padding:6px 14px;font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;color:var(--texte);backdrop-filter:blur(8px);}
+
+/* ── TICKER ── */
+.ticker{background:var(--rouge);color:#fff;padding:16px 0;overflow:hidden;white-space:nowrap;}
+.ticker-track{display:inline-flex;animation:ticker 28s linear infinite;}
+.ticker-item{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;padding:0 48px;display:inline-flex;align-items:center;gap:24px;}
+.ticker-item::after{content:'✦';opacity:.5;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ── SPÉCIALITÉ SHOW COOKING (nouvelle section) ── */
+.specialite{padding:100px 56px;background:var(--texte);color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.specialite-text .section-tag{color:var(--jaune);}
+.specialite-text .section-tag::before{background:var(--jaune);}
+.specialite-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:24px;}
+.specialite-title em{font-style:italic;font-family:'Nunito',sans-serif;font-weight:400;color:var(--orange);}
+.specialite-desc{font-size:1rem;line-height:1.8;color:rgba(255,255,255,.65);margin-bottom:40px;}
+.specialite-pills{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:40px;}
+.pill{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:100px;padding:10px 20px;font-family:'Syne',sans-serif;font-weight:700;font-size:.78rem;color:#fff;letter-spacing:.04em;transition:background .2s,border-color .2s;}
+.pill:hover{background:rgba(245,200,66,.15);border-color:var(--jaune);}
+.specialite-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;border-radius:20px;overflow:hidden;}
+.specialite-grid .sg-img{overflow:hidden;aspect-ratio:1;}
+.specialite-grid .sg-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.specialite-grid .sg-img:hover img{transform:scale(1.06);}
+.specialite-grid .sg-img:first-child{grid-row:span 2;aspect-ratio:auto;}
+
+/* ── SECTIONS ── */
+.section{padding:100px 56px;}
+.section.alt{background:var(--fond);}
+.section-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rouge);margin-bottom:16px;}
+.section-tag::before{content:'';width:20px;height:2px;background:var(--rouge);border-radius:2px;}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:60px;}
+.section-title em{font-style:italic;font-family:'Nunito',sans-serif;font-weight:400;color:var(--orange);}
+
+/* ── ANIM CARDS ── */
+.anim-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.anim-card{border-radius:20px;overflow:hidden;cursor:pointer;position:relative;aspect-ratio:3/4;transition:transform .35s ease,box-shadow .35s;}
+.anim-card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 24px 60px rgba(0,0,0,.15);}
+.anim-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+.anim-card:hover img{transform:scale(1.08);}
+.anim-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,18,8,.9) 0%,rgba(26,18,8,.1) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:28px 24px;}
+.anim-emoji{font-size:2rem;margin-bottom:10px;display:block;}
+.anim-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:#fff;letter-spacing:-.01em;margin-bottom:6px;}
+.anim-sub{font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.45;}
+.anim-chip{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.92);border-radius:100px;padding:5px 12px;font-family:'Syne',sans-serif;font-weight:700;font-size:.68rem;color:var(--texte);}
+
+/* ── FEATURES ── */
+.feature{padding:0 56px 100px;display:grid;grid-template-columns:5fr 4fr;gap:60px;align-items:center;}
+.feature.reverse{grid-template-columns:4fr 5fr;}
+.feature.reverse .feature-visual{order:2;}
+.feature.reverse .feature-text{order:1;}
+.feature-visual{border-radius:24px;overflow:hidden;position:relative;}
+.feature-visual img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .7s;}
+.feature-visual:hover img{transform:scale(1.04);}
+.feature-pill{position:absolute;bottom:24px;left:24px;background:var(--jaune);color:var(--texte);font-family:'Syne',sans-serif;font-weight:800;font-size:.8rem;padding:10px 20px;border-radius:100px;}
+.feature-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,2.5vw,2.6rem);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-bottom:20px;}
+.feature-desc{font-size:.98rem;line-height:1.8;color:var(--gris);margin-bottom:32px;}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.feature-list li{display:flex;align-items:center;gap:12px;font-size:.9rem;color:var(--texte);}
+.feature-list li::before{content:'✓';width:26px;height:26px;border-radius:50%;background:var(--vert);color:#fff;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+
+/* ── GALERIE ── */
+.galerie{padding:0 56px 100px;}
+.galerie-intro{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;}
+.galerie-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+.gal-item{border-radius:16px;overflow:hidden;cursor:pointer;}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.gal-item:hover img{transform:scale(1.06);}
+.gal-item:nth-child(1){grid-column:span 2;grid-row:span 2;aspect-ratio:1;}
+.gal-item:nth-child(2){grid-column:span 2;aspect-ratio:4/3;}
+.gal-item:nth-child(3){grid-column:span 2;aspect-ratio:4/3;}
+.gal-item:nth-child(4){grid-column:span 3;aspect-ratio:16/9;}
+.gal-item:nth-child(5){grid-column:span 3;aspect-ratio:16/9;}
+
+/* ── CLIENTS (nouveau design proéminent) ── */
+.clients-section{background:var(--fond);padding:100px 56px;}
+.clients-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;}
+.clients-top-text{}
+.clients-label{font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rouge);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.clients-label::before{content:'';width:20px;height:2px;background:var(--rouge);border-radius:2px;}
+.clients-headline{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;letter-spacing:-.02em;line-height:1.1;}
+.clients-headline em{font-style:italic;font-family:'Nunito',sans-serif;font-weight:400;color:var(--orange);}
+.clients-stat{text-align:right;}
+.clients-stat-num{font-family:'Syne',sans-serif;font-size:4rem;font-weight:800;color:var(--rouge);line-height:1;}
+.clients-stat-label{font-size:.8rem;color:var(--gris);margin-top:6px;}
+
+.clients-logos-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+.client-card{background:#fff;border:2px solid var(--border);border-radius:16px;padding:28px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;transition:border-color .25s,transform .25s,box-shadow .25s;cursor:default;}
+.client-card:hover{border-color:var(--rouge);transform:translateY(-4px);box-shadow:0 12px 40px rgba(232,67,45,.1);}
+.client-icon{font-size:2rem;}
+.client-name{font-family:'Syne',sans-serif;font-weight:800;font-size:.88rem;color:var(--texte);}
+.client-sector{font-size:.72rem;color:var(--gris);letter-spacing:.04em;}
+.clients-more{margin-top:24px;text-align:center;font-size:.85rem;color:var(--gris);}
+.clients-more strong{color:var(--texte);}
+
+/* ── AVIS (nouvelle section 3 colonnes) ── */
+.avis-section{padding:100px 56px;background:var(--blanc);}
+.avis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:0;}
+.avis-card{background:var(--fond);border:2px solid var(--border);border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:20px;transition:border-color .25s,transform .25s;}
+.avis-card:hover{border-color:var(--orange);transform:translateY(-4px);}
+.avis-stars{display:flex;gap:4px;}
+.avis-star{color:var(--jaune);font-size:1.1rem;}
+.avis-text{font-size:.95rem;line-height:1.7;font-style:italic;color:var(--texte);flex:1;}
+.avis-author{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1.5px solid var(--border);}
+.avis-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:.9rem;flex-shrink:0;}
+.avis-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:var(--texte);}
+.avis-role{font-size:.75rem;color:var(--gris);}
+.avis-tag{display:inline-block;background:rgba(232,67,45,.08);color:var(--rouge);font-family:'Syne',sans-serif;font-weight:700;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-top:4px;}
+
+/* ── NOTE GLOBALE ── */
+.note-globale{background:var(--rouge);padding:60px 56px;display:flex;align-items:center;justify-content:center;gap:80px;}
+.note-item{text-align:center;color:#fff;}
+.note-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;line-height:1;}
+.note-label{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin-top:8px;}
+.note-sep{width:1px;height:60px;background:rgba(255,255,255,.2);}
+
+/* ── CONTACT ── */
+.contact-section{background:var(--rouge);padding:100px 56px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.contact-left h2{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4vw,3.6rem);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.05;margin-bottom:20px;}
+.contact-left h2 em{font-style:italic;font-family:'Nunito',sans-serif;font-weight:400;color:var(--jaune);}
+.contact-left p{color:rgba(255,255,255,.75);font-size:1rem;line-height:1.75;margin-bottom:40px;}
+.contact-phone{display:flex;flex-direction:column;gap:12px;}
+.phone-row{display:flex;align-items:center;gap:14px;}
+.phone-tag{background:rgba(255,255,255,.15);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:100px;white-space:nowrap;}
+.phone-row a{color:#fff;text-decoration:none;font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;transition:color .2s;}
+.phone-row a:hover{color:var(--jaune);}
+.contact-form{background:#fff;border-radius:24px;padding:44px;display:flex;flex-direction:column;gap:18px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{display:flex;flex-direction:column;gap:6px;}
+.fg label{font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);}
+.fg input,.fg select,.fg textarea{border:2px solid var(--border);border-radius:12px;padding:13px 16px;font-family:'Nunito',sans-serif;font-size:.95rem;color:var(--texte);background:var(--fond);outline:none;transition:border-color .25s,background .25s;appearance:none;-webkit-appearance:none;}
+.fg input::placeholder,.fg textarea::placeholder{color:#BFB6AC;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--rouge);background:#fff;}
+.fg textarea{min-height:90px;resize:vertical;}
+.submit-btn{background:var(--rouge);color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;border:none;border-radius:100px;padding:16px 32px;cursor:pointer;transition:background .2s,transform .2s;box-shadow:0 6px 20px rgba(232,67,45,.25);}
+.submit-btn:hover{background:var(--orange);transform:translateY(-2px);}
+
+/* ── GEO ── */
+.geo-section{padding:64px 56px;background:var(--fond);border-top:2px solid var(--border);border-bottom:2px solid var(--border);}
+.geo-inner{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+.geo-left{display:flex;align-items:center;gap:20px;}
+.geo-icon{font-size:2rem;flex-shrink:0;}
+.geo-text{}
+.geo-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--texte);margin-bottom:4px;}
+.geo-desc{font-size:.85rem;color:var(--gris);line-height:1.6;max-width:480px;}
+.geo-villes{display:flex;gap:10px;flex-wrap:wrap;}
+.geo-ville{background:#fff;border:1.5px solid var(--border);border-radius:100px;padding:7px 16px;font-family:'Syne',sans-serif;font-weight:700;font-size:.75rem;color:var(--texte);}
+
+/* ── PETYLLE ── */
+.petylle-section{padding:80px 56px;background:var(--texte);}
+.petylle-inner{display:flex;align-items:center;gap:60px;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:24px;padding:48px;flex-wrap:wrap;}
+.petylle-badge{background:linear-gradient(135deg,#5CB8A0,#3d8f78);border-radius:16px;padding:20px 28px;text-align:center;flex-shrink:0;}
+.petylle-badge-icon{font-size:2.4rem;display:block;margin-bottom:8px;}
+.petylle-badge-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#fff;letter-spacing:.02em;}
+.petylle-badge-sub{font-size:.68rem;color:rgba(255,255,255,.7);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
+.petylle-content{flex:1;min-width:260px;}
+.petylle-eyebrow{font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#5CB8A0;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.petylle-eyebrow::before{content:'';width:16px;height:2px;background:#5CB8A0;border-radius:2px;}
+.petylle-title{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,2vw,2rem);font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.15;margin-bottom:14px;}
+.petylle-desc{font-size:.9rem;line-height:1.75;color:rgba(255,255,255,.6);margin-bottom:28px;max-width:520px;}
+.petylle-pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;}
+.petylle-pill{background:rgba(92,184,160,.12);border:1.5px solid rgba(92,184,160,.25);border-radius:100px;padding:7px 16px;font-family:'Syne',sans-serif;font-weight:700;font-size:.75rem;color:rgba(255,255,255,.8);}
+.petylle-link{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:#5CB8A0;text-decoration:none;transition:gap .2s;}
+.petylle-link:hover{gap:14px;}
+.petylle-link::after{content:'→';}
+
+/* ── FOOTER ── */
+footer{background:var(--texte);color:rgba(255,255,255,.5);padding:64px 56px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:#fff;text-decoration:none;display:block;margin-bottom:18px;}
+footer>div>p{font-size:.85rem;line-height:1.75;max-width:260px;}
+.footer-socials{display:flex;gap:10px;margin-top:24px;}
+.soc{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;color:rgba(255,255,255,.55);text-decoration:none;transition:background .2s,color .2s;}
+.soc:hover{background:var(--rouge);color:#fff;}
+.footer-col h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:#fff;margin-bottom:20px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-col ul a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.85rem;transition:color .2s;}
+.footer-col ul a:hover{color:var(--jaune);}
+.footer-col .ci{font-size:.85rem;line-height:1.9;}
+.footer-col a{color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;}
+.footer-col a:hover{color:var(--jaune);}
+.footer-bottom{background:var(--texte);border-top:1px solid rgba(255,255,255,.07);padding:24px 56px;display:flex;justify-content:space-between;font-size:.75rem;color:rgba(255,255,255,.3);font-family:'Syne',sans-serif;}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:none;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  nav{padding:0 28px;}
+  .nav-links{display:none;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-right{height:360px;}
+  .hero-left{padding:60px 28px;}
+  .specialite{grid-template-columns:1fr;padding:72px 28px;gap:48px;}
+  .specialite-grid{grid-template-columns:1fr 1fr;}
+  .anim-grid{grid-template-columns:repeat(2,1fr);}
+  .section{padding:72px 28px;}
+  .feature,.feature.reverse{grid-template-columns:1fr;gap:32px;padding:0 28px 72px;}
+  .feature.reverse .feature-visual{order:1;}
+  .feature.reverse .feature-text{order:2;}
+  .galerie{padding:0 28px 72px;}
+  .galerie-grid{grid-template-columns:repeat(2,1fr);}
+  .gal-item:nth-child(n){grid-column:span 1;grid-row:span 1;aspect-ratio:4/3;}
+  .clients-section{padding:72px 28px;}
+  .clients-logos-grid{grid-template-columns:repeat(2,1fr);}
+  .clients-top{flex-direction:column;align-items:flex-start;gap:24px;}
+  .clients-stat{text-align:left;}
+  .avis-section{padding:72px 28px;}
+  .avis-grid{grid-template-columns:1fr;}
+  .note-globale{flex-wrap:wrap;gap:40px;padding:48px 28px;}
+  .contact-section{grid-template-columns:1fr;gap:48px;padding:72px 28px;}
+  footer{grid-template-columns:1fr 1fr;padding:48px 28px 32px;gap:40px;}
+  .geo-section{padding:48px 28px;}
+  .geo-inner{flex-direction:column;align-items:flex-start;}
+  .petylle-section{padding:60px 28px;}
+  .petylle-inner{gap:36px;padding:32px 24px;}
+
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo"><div class="logo-dot"></div>Les Furibons</a>
+  <ul class="nav-links">
+    <li><a href="#specialite">Show Cooking</a></li>
+    <li><a href="#animations">Animations</a></li>
+    <li><a href="#clients">Clients</a></li>
+    <li><a href="#avis">Avis</a></li>
+    <li><a href="#contact" class="nav-devis">Demander un devis</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge"><div class="hero-badge-dot"></div>Spécialiste Show Cooking · Partout en France</div>
+    <h1 class="hero-title">
+      L'animation culinaire<br>
+      <span class="line-accent">qui marque</span><br>
+      <span class="line-italic">vos invités.</span>
+    </h1>
+    <p class="hero-sub">Les Furibons sont <strong>les spécialistes du show cooking et de l'animation culinaire</strong> pour vos événements d'entreprise. Depuis 2006, on transforme chaque repas en spectacle mémorable.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-main">Demander un devis gratuit</a>
+      <a href="#specialite" class="btn-secondary">Notre spécialité</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">500<span>+</span></div><div class="hero-stat-label">événements<br>par an</div></div>
+      <div><div class="hero-stat-num">18<span>ans</span></div><div class="hero-stat-label">de show<br>cooking</div></div>
+      <div><div class="hero-stat-num">4,9<span>/5</span></div><div class="hero-stat-label">note moyenne<br>clients</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-mosaic">
+      <div class="mosaic-img big">
+        <img src="photos/p4.jpg" alt="Show cooking Les Furibons">
+        <span class="photo-tag">🍳 Show Cooking Live</span>
+      </div>
+      <div class="mosaic-img">
+        <img src="photos/p1.jpg" alt="Traiteur Les Furibons">
+        <span class="photo-tag">🍤 Traiteur</span>
+      </div>
+      <div class="mosaic-img">
+        <img src="photos/p6.jpg" alt="Animation Les Furibons">
+        <span class="photo-tag">🎉 Animation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Show Cooking Live</span><span class="ticker-item">Bar à Sushi</span><span class="ticker-item">Fontaine Chocolat</span><span class="ticker-item">Bar à Focaccias</span><span class="ticker-item">Street Food</span><span class="ticker-item">Barbe à Papa</span><span class="ticker-item">Bar à Tomates</span><span class="ticker-item">Brochettes BBQ</span><span class="ticker-item">Bar Antipasti</span><span class="ticker-item">Piadina</span><span class="ticker-item">Raclette Party</span><span class="ticker-item">Bar à Huîtres</span><span class="ticker-item">Show Cooking Live</span><span class="ticker-item">Bar à Sushi</span><span class="ticker-item">Fontaine Chocolat</span><span class="ticker-item">Bar à Focaccias</span><span class="ticker-item">Street Food</span><span class="ticker-item">Barbe à Papa</span><span class="ticker-item">Bar à Tomates</span><span class="ticker-item">Brochettes BBQ</span><span class="ticker-item">Bar Antipasti</span><span class="ticker-item">Piadina</span><span class="ticker-item">Raclette Party</span><span class="ticker-item">Bar à Huîtres</span>
+  </div>
+</div>
+
+<!-- SPÉCIALITÉ SHOW COOKING -->
+<section class="specialite" id="specialite">
+  <div class="specialite-text reveal">
+    <div class="section-tag">Notre ADN</div>
+    <h2 class="specialite-title">Le Show Cooking,<br><em>c'est notre passion.</em></h2>
+    <p class="specialite-desc">Oubliez le buffet froid qu'on pose et qu'on oublie. Chez Les Furibons, nos chefs cuisinent en direct devant vos invités. Le spectacle commence dès l'installation : odeurs, gestes, couleurs, échanges — chaque animation culinaire est une expérience à part entière qui crée de la convivialité instantanée.</p>
+    <div class="specialite-pills">
+      <span class="pill">🍣 Bar à Sushi & Maki</span>
+      <span class="pill">🫕 Raclette & Fondue</span>
+      <span class="pill">🍕 Pizza Minute</span>
+      <span class="pill">🥩 Découpe de jambon</span>
+      <span class="pill">🦪 Bar à Huîtres</span>
+      <span class="pill">🍫 Fontaine Chocolat</span>
+      <span class="pill">🌯 Bar à Wraps</span>
+      <span class="pill">🎂 Barbe à Papa</span>
+    </div>
+    <a href="#contact" class="btn-main">Organiser mon événement</a>
+  </div>
+  <div class="specialite-grid reveal">
+    <div class="sg-img"><img src="photos/p7.jpg" alt="Show cooking sushi"></div>
+    <div class="sg-img"><img src="photos/p2.jpg" alt="Fontaine chocolat"></div>
+    <div class="sg-img"><img src="photos/p3.jpg" alt="Animation glace"></div>
+  </div>
+</section>
+
+<!-- ANIMATIONS -->
+<section class="section alt" id="animations">
+  <div class="section-tag reveal">Nos animations</div>
+  <h2 class="section-title reveal">Choisissez votre<br><em>expérience culinaire</em></h2>
+  <div class="anim-grid">
+    <div class="anim-card reveal">
+      <img src="photos/p7.jpg" alt="Bar à sushi Les Furibons">
+      <span class="anim-chip">⭐ Best-seller</span>
+      <div class="anim-overlay">
+        <span class="anim-emoji">🍣</span>
+        <div class="anim-name">Street Food & Asie</div>
+        <div class="anim-sub">Sushi, maki, pizza, burger, wrap — voyage culinaire préparé devant vous</div>
+      </div>
+    </div>
+    <div class="anim-card reveal">
+      <img src="photos/p11.jpg" alt="Brochettes BBQ Les Furibons">
+      <div class="anim-overlay">
+        <span class="anim-emoji">🔥</span>
+        <div class="anim-name">Terre & Mer</div>
+        <div class="anim-sub">Bar à huîtres, raclette, foie gras, barbecue, brochettes marinées</div>
+      </div>
+    </div>
+    <div class="anim-card reveal">
+      <img src="photos/p3.jpg" alt="Animation glace Les Furibons">
+      <div class="anim-overlay">
+        <span class="anim-emoji">🌿</span>
+        <div class="anim-name">Healthy & Vitaminé</div>
+        <div class="anim-sub">Glaces artisanales, smoothies, jus pressés, yaourt bowls minute</div>
+      </div>
+    </div>
+    <div class="anim-card reveal">
+      <img src="photos/p2.jpg" alt="Fontaine chocolat Les Furibons">
+      <span class="anim-chip">🎉 Incontournable</span>
+      <div class="anim-overlay">
+        <span class="anim-emoji">🍫</span>
+        <div class="anim-name">Gourmandise</div>
+        <div class="anim-sub">Fontaine chocolat, barbe à papa, crêpes, gaufres, candy bar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 1 -->
+<section class="section" id="evenements">
+  <div class="feature">
+    <div class="feature-visual reveal">
+      <img src="photos/p5.jpg" alt="Bar à focaccias Les Furibons">
+      <div class="feature-pill">500+ événements / an</div>
+    </div>
+    <div class="feature-text reveal">
+      <div class="section-tag">Tous vos moments</div>
+      <h2 class="feature-title">Un traiteur pour chaque événement d'entreprise</h2>
+      <p class="feature-desc">Que ce soit un afterwork improvisé ou une soirée de Noël pour 500 personnes, on s'adapte. Décor, personnel, animation, matériel — tout est inclus, vous n'avez rien à gérer.</p>
+      <ul class="feature-list">
+        <li>Cocktails & soirées d'entreprise</li>
+        <li>Petits-déjeuners & goûters</li>
+        <li>Stands de salon professionnel</li>
+        <li>Séminaires & team-buildings</li>
+        <li>Afterworks & apéros</li>
+        <li>Noël, galette des rois & calendrier</li>
+      </ul>
+      <a href="#contact" class="btn-main">Demander un devis</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 2 -->
+<section class="section alt">
+  <div class="feature reverse">
+    <div class="feature-visual reveal">
+      <img src="photos/p9.jpg" alt="Bar antipasti Les Furibons">
+      <div class="feature-pill" style="background:var(--vert);color:#fff;">Zéro stress ✓</div>
+    </div>
+    <div class="feature-text reveal">
+      <div class="section-tag">Prestation clé en main</div>
+      <h2 class="feature-title">On gère tout. Vous profitez.</h2>
+      <p class="feature-desc">De la mise en place jusqu'au départ, notre équipe s'occupe de chaque détail. Vous n'avez qu'à accueillir vos invités et savourer le moment.</p>
+      <ul class="feature-list">
+        <li>Devis personnalisé sous 24h</li>
+        <li>Personnel professionnel et souriant</li>
+        <li>Matériel et décoration fournis</li>
+        <li>Produits frais soigneusement sélectionnés</li>
+        <li>Installation et nettoyage inclus</li>
+      </ul>
+      <a href="#contact" class="btn-main" style="background:var(--vert);">Parlons de votre projet</a>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section class="galerie" id="galerie">
+  <div class="galerie-intro">
+    <div>
+      <div class="section-tag reveal">Galerie</div>
+      <h2 class="section-title reveal" style="margin-bottom:0;">Nos plus beaux <em>moments</em></h2>
+    </div>
+    <a href="#contact" class="btn-secondary reveal" style="margin-bottom:6px;">Nous contacter</a>
+  </div>
+  <div class="galerie-grid">
+    <div class="gal-item reveal"><img src="photos/p13.jpg" alt="Bar à tomates Les Furibons"></div>
+    <div class="gal-item reveal"><img src="photos/p8.jpg" alt="Sandwiches Les Furibons"></div>
+    <div class="gal-item reveal"><img src="photos/p10.jpg" alt="Jus frais Les Furibons"></div>
+    <div class="gal-item reveal"><img src="photos/p12.jpg" alt="Bar piadina Les Furibons"></div>
+    <div class="gal-item reveal"><img src="photos/p4.jpg" alt="Show cooking Les Furibons"></div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients-section" id="clients">
+  <div class="clients-top reveal">
+    <div class="clients-top-text">
+      <div class="clients-label">Ils nous font confiance</div>
+      <h2 class="clients-headline">Des grandes marques<br><em>qui reviennent chaque année</em></h2>
+    </div>
+    <div class="clients-stat">
+      <div class="clients-stat-num">18<span style="font-size:2rem;color:var(--gris)">ans</span></div>
+      <div class="clients-stat-label">de fidélité client</div>
+    </div>
+  </div>
+  <div class="clients-logos-grid reveal">
+    <div class="client-card">
+      <div class="client-icon">👜</div>
+      <div class="client-name">Louis Vuitton</div>
+      <div class="client-sector">Luxe & Mode</div>
+    </div>
+    <div class="client-card">
+      <div class="client-icon">🏦</div>
+      <div class="client-name">Société Générale</div>
+      <div class="client-sector">Banque & Finance</div>
+    </div>
+    <div class="client-card">
+      <div class="client-icon">💊</div>
+      <div class="client-name">Pfizer</div>
+      <div class="client-sector">Santé & Pharma</div>
+    </div>
+    <div class="client-card">
+      <div class="client-icon">🚀</div>
+      <div class="client-name">BPI France</div>
+      <div class="client-sector">Investissement</div>
+    </div>
+    <div class="client-card">
+      <div class="client-icon">🏨</div>
+      <div class="client-name">Accor Hotels</div>
+      <div class="client-sector">Hôtellerie</div>
+    </div>
+    <div class="client-card">
+      <div class="client-icon">🚄</div>
+      <div class="client-name">SNCF</div>
+      <div class="client-sector">Transport</div>
+    </div>
+    <div class="client-card">
+      <div class="client-icon">🛡️</div>
+      <div class="client-name">AXA</div>
+      <div class="client-sector">Assurance</div>
+    </div>
+    <div class="client-card">
+      <div class="client-icon">⚡</div>
+      <div class="client-name">EDF</div>
+      <div class="client-sector">Énergie</div>
+    </div>
+    <div class="client-card">
+      <div class="client-icon">🐊</div>
+      <div class="client-name">Lacoste</div>
+      <div class="client-sector">Mode & Sport</div>
+    </div>
+    <div class="client-card">
+      <div class="client-icon">📮</div>
+      <div class="client-name">La Poste</div>
+      <div class="client-sector">Services publics</div>
+    </div>
+  </div>
+  <p class="clients-more reveal">Et aussi : <strong>CIC · Hopscotch · CWT Meetings · SVR</strong> et plus de 200 entreprises en France</p>
+</section>
+
+<!-- AVIS -->
+<section class="avis-section" id="avis">
+  <div class="section-tag reveal">Avis clients</div>
+  <h2 class="section-title reveal">Ce que disent<br><em>nos clients</em></h2>
+  <div class="avis-grid">
+
+    <div class="avis-card reveal">
+      <div class="avis-stars">⭐⭐⭐⭐⭐</div>
+      <p class="avis-text">« Les Furibons ont transformé notre séminaire annuel en un vrai moment de fête. Le bar à huîtres et la raclette ont créé une ambiance incroyable. Nos équipes en parlent encore six mois après ! »</p>
+      <div class="avis-author">
+        <div class="avis-avatar" style="background:linear-gradient(135deg,#F07D2A,#E8432D);">M</div>
+        <div>
+          <div class="avis-name">Marie-Sophie L.</div>
+          <div class="avis-role">DRH · Groupe Accor</div>
+          <span class="avis-tag">Séminaire · 200 personnes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="avis-card reveal">
+      <div class="avis-stars">⭐⭐⭐⭐⭐</div>
+      <p class="avis-text">« Le show cooking sushi a été un véritable succès ! Nos clients étaient bluffés de voir les maki préparés en direct. Une animation originale qui a mis tout le monde dans une super ambiance. »</p>
+      <div class="avis-author">
+        <div class="avis-avatar" style="background:linear-gradient(135deg,#3DAA6E,#2d8a55);">T</div>
+        <div>
+          <div class="avis-name">Thomas R.</div>
+          <div class="avis-role">Directeur Commercial · Pfizer</div>
+          <span class="avis-tag">Cocktail client · 150 personnes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="avis-card reveal">
+      <div class="avis-stars">⭐⭐⭐⭐⭐</div>
+      <p class="avis-text">« Professionnels, ponctuels et vraiment créatifs. La fontaine à chocolat était magnifique et les animations ont mis tout le monde de bonne humeur dès le début. Je recommande les yeux fermés. »</p>
+      <div class="avis-author">
+        <div class="avis-avatar" style="background:linear-gradient(135deg,#F5C842,#F07D2A);">S</div>
+        <div>
+          <div class="avis-name">Sophie M.</div>
+          <div class="avis-role">Event Manager · SNCF</div>
+          <span class="avis-tag">Soirée de Noël · 300 personnes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="avis-card reveal">
+      <div class="avis-stars">⭐⭐⭐⭐⭐</div>
+      <p class="avis-text">« On fait appel aux Furibons depuis 4 ans pour tous nos événements. Ils connaissent nos goûts, s'adaptent à chaque fois et proposent toujours de nouvelles idées. Un partenaire de confiance. »</p>
+      <div class="avis-author">
+        <div class="avis-avatar" style="background:linear-gradient(135deg,#E8432D,#c0321d);">J</div>
+        <div>
+          <div class="avis-name">Jean-Baptiste K.</div>
+          <div class="avis-role">Responsable RH · BPI France</div>
+          <span class="avis-tag">Partenaire depuis 4 ans</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="avis-card reveal">
+      <div class="avis-stars">⭐⭐⭐⭐⭐</div>
+      <p class="avis-text">« Le bar à focaccias sur notre événement outdoor était parfait. Tout était beau, bon et bien présenté. L'équipe était souriante et très à l'écoute. Nos collaborateurs ont adoré ! »</p>
+      <div class="avis-author">
+        <div class="avis-avatar" style="background:linear-gradient(135deg,#3DAA6E,#F07D2A);">A</div>
+        <div>
+          <div class="avis-name">Amélie D.</div>
+          <div class="avis-role">Office Manager · Louis Vuitton</div>
+          <span class="avis-tag">Team building · 80 personnes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="avis-card reveal">
+      <div class="avis-stars">⭐⭐⭐⭐⭐</div>
+      <p class="avis-text">« Rapport qualité-prix excellent et une vraie valeur ajoutée par rapport à un traiteur classique. Le show cooking crée du lien entre les gens d'une façon que je n'avais jamais vue auparavant. »</p>
+      <div class="avis-author">
+        <div class="avis-avatar" style="background:linear-gradient(135deg,#1A1208,#7A6F65);">C</div>
+        <div>
+          <div class="avis-name">Claire B.</div>
+          <div class="avis-role">Directrice Marketing · AXA</div>
+          <span class="avis-tag">Afterwork · 120 personnes</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NOTE GLOBALE -->
+<div class="note-globale">
+  <div class="note-item reveal">
+    <div class="note-num">4,9/5</div>
+    <div class="note-label">Note moyenne clients</div>
+  </div>
+  <div class="note-sep"></div>
+  <div class="note-item reveal">
+    <div class="note-num">98%</div>
+    <div class="note-label">Clients satisfaits</div>
+  </div>
+  <div class="note-sep"></div>
+  <div class="note-item reveal">
+    <div class="note-num">+70%</div>
+    <div class="note-label">Clients fidèles</div>
+  </div>
+  <div class="note-sep"></div>
+  <div class="note-item reveal">
+    <div class="note-num">500+</div>
+    <div class="note-label">Événements / an</div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-left reveal">
+    <h2>Un devis<br><em>en 24 heures.</em></h2>
+    <p>Décrivez votre événement, on vous répond rapidement avec une proposition de show cooking sur mesure. Aucun engagement.</p>
+    <div class="contact-phone">
+      <div class="phone-row"><span class="phone-tag">Paris</span><a href="tel:+33981052299">09 81 05 22 99</a></div>
+      <div class="phone-row"><span class="phone-tag">Lyon</span><a href="tel:+33481919844">04 81 91 98 44</a></div>
+      <div class="phone-row"><span class="phone-tag">Email</span><a href="/cdn-cgi/l/email-protection#167f787079567a73657063647f74797865387064"><span class="__cf_email__" data-cfemail="50393e363f103c352336252239323f3e237e3622">[email&#160;protected]</span></a></div>
+    </div>
+  </div>
+  <div class="contact-form reveal">
+    <div class="form-row">
+      <div class="fg"><label>Prénom & Nom</label><input type="text" placeholder="Jean Dupont"></div>
+      <div class="fg"><label>Société</label><input type="text" placeholder="Votre entreprise"></div>
+    </div>
+    <div class="fg"><label>Email</label><input type="email" placeholder="jean@entreprise.fr"></div>
+    <div class="form-row">
+      <div class="fg"><label>Animation souhaitée</label>
+        <select><option value="" disabled selected>Choisir…</option><option>Show Cooking / Bar à Sushi</option><option>Raclette / Fondue</option><option>Fontaine Chocolat</option><option>Bar à Focaccias / Piadina</option><option>Brochettes BBQ</option><option>Barbe à Papa</option><option>Bar Antipasti</option><option>Traiteur classique</option><option>Je ne sais pas encore</option></select>
+      </div>
+      <div class="fg"><label>Nombre d'invités</label><input type="text" placeholder="Ex : 80 personnes"></div>
+    </div>
+    <div class="fg"><label>Votre projet</label><textarea placeholder="Date souhaitée, lieu, type d'événement…"></textarea></div>
+    <button class="submit-btn">Envoyer ma demande →</button>
+  </div>
+</section>
+
+<!-- COUVERTURE GÉOGRAPHIQUE -->
+<section class="geo-section">
+  <div class="geo-inner">
+    <div class="geo-left">
+      <div class="geo-icon">📍</div>
+      <div class="geo-text">
+        <div class="geo-title">Basés à Paris et Lyon, on intervient partout en France</div>
+        <div class="geo-desc">Nos équipes se déplacent sur l'ensemble du territoire pour vos événements d'entreprise.</div>
+      </div>
+    </div>
+    <div class="geo-villes">
+      <span class="geo-ville">🗼 Paris</span>
+      <span class="geo-ville">🦁 Lyon</span>
+      <span class="geo-ville">🌹 Bordeaux</span>
+      <span class="geo-ville">🌊 Marseille</span>
+      <span class="geo-ville">🌷 Lille</span>
+      <span class="geo-ville">🎡 Nantes</span>
+      <span class="geo-ville">🥨 Strasbourg</span>
+      <span class="geo-ville">+ partout ailleurs</span>
+    </div>
+  </div>
+</section>
+
+<!-- PETYLLE -->
+<section class="petylle-section">
+  <div class="petylle-inner">
+    <div class="petylle-badge reveal">
+      <span class="petylle-badge-icon">🌿</span>
+      <div class="petylle-badge-name">Pétylle</div>
+      <div class="petylle-badge-sub">Notre autre entité</div>
+    </div>
+    <div class="petylle-content reveal">
+      <div class="petylle-eyebrow">Groupe Les Furibons</div>
+      <h3 class="petylle-title">Le bien-être en entreprise,<br>c'est aussi notre métier.</h3>
+      <p class="petylle-desc">Pétylle est notre entité dédiée à la qualité de vie au travail. Massages, ateliers yoga, conseils nutrition, animations beauté et fitness — des expériences bien-être pour prendre soin de vos équipes, au bureau comme lors de vos événements.</p>
+      <div class="petylle-pills">
+        <span class="petylle-pill">💆 Massage assis</span>
+        <span class="petylle-pill">🧘 Atelier yoga</span>
+        <span class="petylle-pill">🥝 Conseil nutrition</span>
+        <span class="petylle-pill">💄 Animation beauté</span>
+        <span class="petylle-pill">🏃 Fitness en entreprise</span>
+      </div>
+      <a href="https://www.petylle.fr" target="_blank" class="petylle-link">Découvrir Pétylle</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <a class="footer-logo" href="#">Les Furibons</a>
+    <p>Spécialistes du show cooking et de l'animation culinaire pour vos événements d'entreprise depuis 2006. Découvrez aussi <a href="https://www.petylle.fr" target="_blank" style="color:rgba(255,255,255,.6);text-decoration:underline;">Pétylle</a>, notre entité bien-être.</p>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/lesfuribons/" class="soc">ig</a>
+      <a href="https://www.facebook.com/Les-Furibons-240936302634038" class="soc">fb</a>
+      <a href="https://fr.linkedin.com/company/lesfuribons" class="soc">in</a>
+    </div>
+  </div>
+  <div class="footer-col">
+    <h4>Animations</h4>
+    <ul><li><a href="#">Show Cooking</a></li><li><a href="#">Street Food & Asie</a></li><li><a href="#">Terre & Mer</a></li><li><a href="#">Healthy</a></li><li><a href="#">Gourmandise</a></li></ul>
+  </div>
+  <div class="footer-col">
+    <h4>Événements</h4>
+    <ul><li><a href="#">Cocktails & Soirées</a></li><li><a href="#">Salons professionnels</a></li><li><a href="#">Séminaires</a></li><li><a href="#">Afterworks</a></li><li><a href="#">Box à offrir</a></li></ul>
+  </div>
+  <div class="footer-col">
+    <h4>Contact</h4>
+    <div class="ci">
+      <strong style="color:rgba(255,255,255,.7);">Paris</strong><br>09 81 05 22 99<br>17 rue des Petits Ruisseaux<br>91370 Verrières-le-Buisson<br><br>
+      <strong style="color:rgba(255,255,255,.7);">Lyon</strong><br>04 81 91 98 44<br>55 Rue Émile Zola, 69150 Décines<br><br>
+      <a href="/cdn-cgi/l/email-protection#0c65626a634c60697f6a797e656e63627f226a7e"><span class="__cf_email__" data-cfemail="92fbfcf4fdd2fef7e1f4e7e0fbf0fdfce1bcf4e0">[email&#160;protected]</span></a>
+    </div>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© Les Furibons 2026 — Spécialiste Show Cooking & Animation Culinaire</span>
+  <a href="#" style="color:rgba(255,255,255,.3);text-decoration:none;">Mentions légales</a>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('s
